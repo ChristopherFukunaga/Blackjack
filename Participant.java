@@ -1,3 +1,12 @@
+/*  Author: Christopher Fukunaga
+ *  File: Participant.java
+ *  Purpose: The parent class for other fully implemented types of participants. Creates an
+ *  an ArrayList of Card objects representing the participant's held cards. The Participant
+ *  can addCard to their heldCards, clearCards, getCards (gets a String representation of cards)
+ *  and get an added value of all cards.
+ */
+
+
 import java.util.ArrayList;
 
 public class Participant {
@@ -11,8 +20,16 @@ public class Participant {
         heldCards.add(card);
     }
 
-    public void clearCards() {
+    public ArrayList<Card> clearCards() {
+        ArrayList<Card> oldCards = new ArrayList<Card>();
+
+        for (int i = 0; i < heldCards.size(); i++) {
+            oldCards.add(heldCards.get(i));
+        }
+
         heldCards = new ArrayList<Card>();
+
+        return oldCards;
     }
 
     public String getCards() {

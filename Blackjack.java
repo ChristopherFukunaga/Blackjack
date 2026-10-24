@@ -1,11 +1,19 @@
-/*
- * Author: Christopher Fukunaga
- * File: BlackJack.java
- * Purpose: ...
+/*  Author: Christopher Fukunaga
+ *  File: BlackJack.java
+ *  Purpose: The main class for the whole Blackjack project, handling the state of the
+ *  game while mananging all of the objects it utilizes. User inputs are handeled through
+ *  the console using a Scanner object. Uses a shared Deck object which the Participants
+ *  can draw form and discard to. First Participants are dealt cards and a check is run
+ *  to see if the Player has Blackjack (21 on first turn). Then the player gets their turn 
+ *  where they can double (first turn only), hit, or stand. Then the dealer will go through
+ *  their turn, continually weighing the risk if they were to draw a card. Then the winner
+ *  is decided, and if the user chooses to they may play again.
  */
 
+
 import java.util.Scanner;
-// add insurance
+import java.util.ArrayList;
+
 
 public class Blackjack {
     public static void main(String[] args) {
@@ -24,6 +32,7 @@ public class Blackjack {
         while (gamestate) {
             boolean playerActive = initializeGame(player, dealer, deck, scnr);
 
+            System.out.println(deck.toString());
             System.out.println("\nDealer's hand: " + dealer.getFaceUpCard().toString() + ", [Hidden Card]");
             System.out.println("Your hand: " + player.getCards() + " (" + player.getAddedValue() +")\n");
 
@@ -111,18 +120,26 @@ public class Blackjack {
      * dealCards(deck, player, dealer) -- Takes a Deck object deck and two Particapant objects player and dealer. Deal back and
      *                                    to each Participant one at a time.
      */
-    public static boolean initializeGame(Player player, Dealer dealer, Deck deck, Scanner scnr){
-            player.clearCards();
-            dealer.clearCards();
-            boolean amountSelected = false;
+    public static boolean initializeGame(Player player, Dealer dealer, Deck deck, Scanner scnr) {
+        ArrayList<Card> oldCards = new ArrayList<Card>();
+        oldCards.addAll(player.clearCards());
+        oldCards.addAll(dealer.clearCards());
+        
+        for (int i = 0; i < oldCards.size(); i++) {
+            deck.discard(oldCards.get(i));
+        }
 
-            while (!amountSelected) {
-                System.out.printf("Total Money: %d%nHow much will you bet? ", player.getMoney());
-                amountSelected = player.setBet(scnr.nextInt());
-            }
+        deck.shuffle();
 
-            dealCards(deck, player, dealer);
-            return true;
+        boolean amountSelected = false;
+
+        while (!amountSelected) {
+            System.out.printf("Total Money: %d%nHow much will you bet? ", player.getMoney());
+            amountSelected = player.setBet(scnr.nextInt());
+        }
+
+        dealCards(deck, player, dealer);
+        return true;
     }
 
     public static void dealCards(Deck deck, Player player, Dealer dealer) {

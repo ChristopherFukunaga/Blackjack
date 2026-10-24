@@ -1,3 +1,13 @@
+/*  Author: Christopher Fukunaga
+ *  File: Dealer.java
+ *  Purpose: Child class of Participant, inheriting the ArrayList of Cards and the functions
+ *  performable on the heldCards. Has no additional fields, however has methods for returning
+ *  ONLY the first card named getFaceUpCard(), handling the dealer's turn and logical thinking
+ *  named dealerTurn(player, deck), calculating risk of a move named calculateRisk(), and a 
+ *  basic bubble sort to order the current cards in play named sort(list).
+ */
+
+
 public class Dealer extends Participant {
     
     public Dealer() {
