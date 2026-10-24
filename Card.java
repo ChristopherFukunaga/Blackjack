@@ -1,3 +1,12 @@
+/*  Author: Christopher Fukunaga
+ *  File: Card.java
+ *  Purpose: A class for Card objects, which allows the cards to hold the data fields
+ *  for seperate int rank and int suit. There are getter methods for rank and suit
+ *  (getRank() and getSuit()), and a toString() method which returns a String
+ *  representation of the card.
+ */
+
+
 public class Card {
     private int rank;
     private int suit;

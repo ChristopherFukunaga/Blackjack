@@ -36,4 +36,20 @@ public class Deck {
 
         return drawPile.remove(0);
     }
+
+    public String toString() {
+        String str = ("Draw Pile: (" + drawPile.size() + ") ");
+
+        for (int i = 0; i < drawPile.size(); i++) {
+            str += drawPile.get(i).toString() + ", ";
+        }
+
+        str += ("\nDiscard Pile: (" + discardPile.size() + ") ");
+
+        for (int i = 0; i < discardPile.size(); i++) {
+            str += discardPile.get(i).toString() + ", ";
+        }
+
+        return str;
+    }
 }
