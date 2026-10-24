@@ -22,17 +22,7 @@ public class Blackjack {
 
         // Deal Cards: player gets dealt then dealer then player again
         while (gamestate) {
-            player.clearCards();
-            dealer.clearCards();
-            boolean amountSelected = false;
-
-            while (!amountSelected) {
-                System.out.printf("Total Money: %d%nHow much will you bet? ", player.getMoney());
-                amountSelected = player.setBet(scnr.nextInt());
-            }
-
-            dealCards(deck, player, dealer);
-            boolean playerActive = true;
+            boolean playerActive = initializeGame(player, dealer, deck, scnr);
 
             System.out.println("\nDealer's hand: " + dealer.getFaceUpCard().toString() + ", [Hidden Card]");
             System.out.println("Your hand: " + player.getCards() + " (" + player.getAddedValue() +")\n");
@@ -68,6 +58,13 @@ public class Blackjack {
 
             if (!gamewon) {
                 System.out.println("Dealer's hand: " + dealer.getCards() + " (" + dealer.getAddedValue() + ")");
+                
+                boolean dealerActive = true;
+
+                while (dealerActive) {
+                    dealerActive = dealer.dealerTurn(player, deck);
+                }
+
                 if (player.getAddedValue() < dealer.getAddedValue()) {
                     System.out.println("You lose.\n\n");
                 } else if (player.getAddedValue() > dealer.getAddedValue()) {
@@ -95,7 +92,7 @@ public class Blackjack {
                     case "yes":
                         break;
                     case "no":
-                        break;
+                        gamestate = false;
                     default:
                         againSelected = false;
                         System.out.println("Invalid choice. Please type 'yes' or 'no'.");
@@ -114,6 +111,20 @@ public class Blackjack {
      * dealCards(deck, player, dealer) -- Takes a Deck object deck and two Particapant objects player and dealer. Deal back and
      *                                    to each Participant one at a time.
      */
+    public static boolean initializeGame(Player player, Dealer dealer, Deck deck, Scanner scnr){
+            player.clearCards();
+            dealer.clearCards();
+            boolean amountSelected = false;
+
+            while (!amountSelected) {
+                System.out.printf("Total Money: %d%nHow much will you bet? ", player.getMoney());
+                amountSelected = player.setBet(scnr.nextInt());
+            }
+
+            dealCards(deck, player, dealer);
+            return true;
+    }
+
     public static void dealCards(Deck deck, Player player, Dealer dealer) {
         for (int i = 0; i < 2; i++) {
             player.addCard(deck.draw());
